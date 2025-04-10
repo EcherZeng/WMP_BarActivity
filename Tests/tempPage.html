@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2046 R&B Bar 小程序原型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .prototype-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .phone-frame {
+            width: 320px;
+            height: 680px;
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .status-bar {
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            height: calc(100% - 70px);
+            overflow-y: auto;
+        }
+
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #ff4d4f;
+        }
+
+        /* 歌手页面样式 */
+        .singer-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .singer-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            background: #eee;
+        }
+
+        /* 活动页面样式 */
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            background: #eee;
+            margin-bottom: 10px;
+        }
+
+        /* 个人页面样式 */
+        .profile-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #eee;
+            margin: 0 auto 10px;
+        }
+
+        .menu-item {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button {
+            background: #ff4d4f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <!-- 歌手页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>20:46</span>
+                <span>2046 R&B Bar</span>
+                <span>📶</span>
+            </div>
+            <div class="content">
+                <h3 style="margin-bottom: 15px;">推荐歌手</h3>
+                <div class="singer-card">
+                    <div class="singer-avatar"></div>
+                    <div>
+                        <h4>张三</h4>
+                        <p style="font-size: 12px; color: #666; margin: 5px 0;">R&B 歌手</p>
+                        <p style="font-size: 12px; color: #999;">代表作：《夜色》《城市》</p>
+                    </div>
+                </div>
+                <div class="singer-card">
+                    <div class="singer-avatar"></div>
+                    <div>
+                        <h4>李四</h4>
+                        <p style="font-size: 12px; color: #666; margin: 5px 0;">爵士歌手</p>
+                        <p style="font-size: 12px; color: #999;">代表作：《月光》《雨夜》</p>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <div class="nav-item active">歌手</div>
+                <div class="nav-item">活动</div>
+                <div class="nav-item">我的</div>
+            </div>
+        </div>
+
+        <!-- 活动页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>20:46</span>
+                <span>2046 R&B Bar</span>
+                <span>📶</span>
+            </div>
+            <div class="content">
+                <h3 style="margin-bottom: 15px;">近期活动</h3>
+                <div class="event-card">
+                    <div class="event-image"></div>
+                    <h4>周末爵士之夜</h4>
+                    <p style="font-size: 14px; color: #666; margin: 5px 0;">时间：2024-04-20 20:46</p>
+                    <p style="font-size: 14px; color: #666;">地点：2046 R&B Bar</p>
+                    <p style="font-size: 14px; color: #ff4d4f; margin: 5px 0;">票价：¥188</p>
+                    <button class="button">立即购票</button>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <div class="nav-item">歌手</div>
+                <div class="nav-item active">活动</div>
+                <div class="nav-item">我的</div>
+            </div>
+        </div>
+
+        <!-- 个人页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>20:46</span>
+                <span>2046 R&B Bar</span>
+                <span>📶</span>
+            </div>
+            <div class="content">
+                <div class="profile-header">
+                    <div class="profile-avatar"></div>
+                    <h4>用户昵称</h4>
+                </div>
+                <div class="menu-item">
+                    我的订单
+                    <span style="color: #999;">></span>
+                </div>
+                <div class="menu-item">
+                    我的收藏
+                    <span style="color: #999;">></span>
+                </div>
+                <div class="menu-item">
+                    个人设置
+                    <span style="color: #999;">></span>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <div class="nav-item">歌手</div>
+                <div class="nav-item">活动</div>
+                <div class="nav-item active">我的</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
