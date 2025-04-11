@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2046 R&B bar - 小程序原型</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            margin: 20px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 1px solid #ddd;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+        }
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background-color: black;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+        .screen {
+            height: calc(100% - 44px - 80px);
+            overflow-y: auto;
+            position: relative;
+        }
+        .nav-bar {
+            height: 80px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding-bottom: 20px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #fd6537;
+        }
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .screen-content {
+            padding: 15px;
+            display: none;
+        }
+        .active-screen {
+            display: block;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-bottom: 15px;
+        }
+        .search-icon {
+            color: #888;
+            margin-right: 8px;
+        }
+        .search-input {
+            border: none;
+            background-color: transparent;
+            width: 100%;
+            font-size: 14px;
+            color: #333;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .singer-card {
+            display: flex;
+            padding: 12px;
+        }
+        .singer-photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .singer-info {
+            margin-left: 15px;
+            flex: 1;
+        }
+        .singer-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .singer-genre {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .singer-schedule {
+            font-size: 12px;
+            color: #fd6537;
+        }
+        .event-card {
+            position: relative;
+        }
+        .event-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .event-info {
+            padding: 12px;
+        }
+        .event-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .event-date, .event-location {
+            font-size: 12px;
+            color: #888;
+        }
+        .event-price {
+            font-size: 14px;
+            color: #fd6537;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .event-btn {
+            display: inline-block;
+            background-color: #fd6537;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-info {
+            margin-left: 15px;
+        }
+        .profile-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-stats {
+            display: flex;
+            font-size: 12px;
+            color: #888;
+        }
+        .profile-stat {
+            margin-right: 15px;
+        }
+        .profile-number {
+            font-weight: bold;
+            color: #333;
+        }
+        .menu-list {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #f2f2f2;
+            align-items: center;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-left {
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            margin-right: 10px;
+            color: #555;
+        }
+        .menu-title {
+            font-size: 14px;
+            color: #333;
+        }
+        .menu-right {
+            color: #ccc;
+        }
+        .tab-bar {
+            display: flex;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #888;
+            cursor: pointer;
+        }
+        .tab.active {
+            background-color: white;
+            color: #fd6537;
+            font-weight: bold;
+        }
+        .detailed-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 10;
+            overflow-y: auto;
+            display: none;
+        }
+        .back-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .back-btn {
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        .page-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .singer-detail-header {
+            position: relative;
+            height: 200px;
+        }
+        .singer-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .singer-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+        }
+        .singer-detail-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .singer-detail-genre {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .singer-detail-content {
+            padding: 15px;
+        }
+        .singer-bio {
+            margin-bottom: 20px;
+        }
+        .singer-bio-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .singer-bio-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .performance-list {
+            margin-top: 20px;
+        }
+        .performance-item {
+            padding: 12px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .performance-item:last-child {
+            border-bottom: none;
+        }
+        .performance-date {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .performance-venue {
+            font-size: 12px;
+            color: #888;
+        }
+        .action-btns {
+            display: flex;
+            margin-top: 20px;
+        }
+        .action-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+        .action-icon {
+            font-size: 20px;
+            color: #fd6537;
+            margin-bottom: 5px;
+        }
+        .action-text {
+            font-size: 12px;
+            color: #888;
+        }
+        .event-detail-content {
+            padding: 15px;
+        }
+        .event-detail-meta {
+            margin-bottom: 15px;
+        }
+        .event-detail-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .event-detail-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #fd6537;
+        }
+        .event-detail-text {
+            font-size: 14px;
+            color: #555;
+        }
+        .event-detail-desc {
+            margin-bottom: 20px;
+        }
+        .event-detail-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .event-detail-desc-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .ticket-section {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .ticket-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fd6537;
+            margin-bottom: 15px;
+        }
+        .ticket-btn {
+            display: block;
+            width: 100%;
+            background-color: #fd6537;
+            color: white;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        .login-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .login-btn {
+            background-color: #07c160;
+            color: white;
+            padding: 12px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .wechat-icon {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-wrap justify-center p-4">
+    <div class="phone-container">
+        <div class="notch"></div>
+        <div class="status-bar">
+            <div>14:30</div>
+            <div>
+                <span class="mr-2"><i class="fas fa-signal"></i></span>
+                <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                <span><i class="fas fa-battery-three-quarters"></i></span>
+            </div>
+        </div>
+        <div class="screen">
+            <!-- 歌手页面（首页） -->
+            <div id="singers-screen" class="screen-content active-screen">
+                <div class="search-bar">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" class="search-input" placeholder="搜索歌手或活动">
+                </div>
+                
+                <div class="section-title">推荐歌手</div>
+                <div class="card singer-card" onclick="showSingerDetail()">
+                    <img src="https://images.unsplash.com/photo-1570499911518-9b95b0620cce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8amF6eiUyMHNpbmdlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                    <div class="singer-info">
+                        <div class="singer-name">Ella Johnson</div>
+                        <div class="singer-genre">R&B / Soul</div>
+                        <div class="singer-schedule">下一场演出: 4月15日 21:00</div>
+                    </div>
+                </div>
+                
+                <div class="card singer-card">
+                    <img src="https://images.unsplash.com/photo-1516575601760-94bbeb391090?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                    <div class="singer-info">
+                        <div class="singer-name">Marcus Harper</div>
+                        <div class="singer-genre">Neo Soul / Jazz</div>
+                        <div class="singer-schedule">下一场演出: 4月18日 20:30</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">最新加入</div>
+                <div class="card singer-card">
+                    <img src="https://images.unsplash.com/photo-1549834125-80f9dda633c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                    <div class="singer-info">
+                        <div class="singer-name">Sarah Chen</div>
+                        <div class="singer-genre">Contemporary R&B</div>
+                        <div class="singer-schedule">下一场演出: 4月22日 21:30</div>
+                    </div>
+                </div>
+                
+                <div class="card singer-card">
+                    <img src="https://images.unsplash.com/photo-1483393458019-411bc6bd104e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                    <div class="singer-info">
+                        <div class="singer-name">James Wilson</div>
+                        <div class="singer-genre">Soul / Funk</div>
+                        <div class="singer-schedule">下一场演出: 4月25日 22:00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 活动页面 -->
+            <div id="events-screen" class="screen-content">
+                <div class="search-bar">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" class="search-input" placeholder="搜索活动">
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab active">近期活动</div>
+                    <div class="tab">热门活动</div>
+                    <div class="tab">我的收藏</div>
+                </div>
+                
+                <div class="card event-card" onclick="showEventDetail()">
+                    <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y29uY2VydHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="活动图片" class="event-image">
+                    <div class="event-info">
+                        <div class="event-title">2046 R&B 之夜</div>
+                        <div class="event-meta">
+                            <div class="event-date">4月15日 21:00</div>
+                            <div class="event-location">2046 Live House</div>
+                        </div>
+                        <div class="event-price">¥120 起</div>
+                        <div class="event-btn">立即购票</div>
+                    </div>
+                </div>
+                
+                <div class="card event-card">
+                    <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29uY2VydHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="活动图片" class="event-image">
+                    <div class="event-info">
+                        <div class="event-title">Soul Music Festival</div>
+                        <div class="event-meta">
+                            <div class="event-date">4月22日 19:30</div>
+                            <div class="event-location">2046 Live House</div>
+                        </div>
+                        <div class="event-price">¥150 起</div>
+                        <div class="event-btn">立即购票</div>
+                    </div>
+                </div>
+                
+                <div class="card event-card">
+                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y29uY2VydHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="活动图片" class="event-image">
+                    <div class="event-info">
+                        <div class="event-title">Jazz & Cocktail Night</div>
+                        <div class="event-meta">
+                            <div class="event-date">4月29日 20:00</div>
+                            <div class="event-location">2046 Live House</div>
+                        </div>
+                        <div class="event-price">¥180 起</div>
+                        <div class="event-btn">立即购票</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人页面 -->
+            <div id="profile-screen" class="screen-content">
+                <div id="not-logged-in" class="login-container">
+                    <img src="https://images.unsplash.com/photo-1586769852044-692d6e3703f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Logo" class="login-logo rounded-full">
+                    <div class="login-text">登录体验更多功能</div>
+                    <div class="login-btn" onclick="toggleLogin()">
+                        <span class="wechat-icon"><i class="fab fa-weixin"></i></span>
+                        微信一键登录
+                    </div>
+                </div>
+                
+                <div id="logged-in" style="display:none;">
+                    <div class="profile-header">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="头像" class="profile-avatar">
+                        <div class="profile-info">
+                            <div class="profile-name">小红</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span class="profile-number">8</span> 收藏歌手
+                                </div>
+                                <div class="profile-stat">
+                                    <span class="profile-number">12</span> 收藏活动
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-bar">
+                        <div class="tab active">我的收藏</div>
+                        <div class="tab">我的活动</div>
+                        <div class="tab">我的评论</div>
+                    </div>
+                    
+                    <div class="card singer-card">
+                        <img src="https://images.unsplash.com/photo-1570499911518-9b95b0620cce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8amF6eiUyMHNpbmdlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                        <div class="singer-info">
+                            <div class="singer-name">Ella Johnson</div>
+                            <div class="singer-genre">R&B / Soul</div>
+                            <div class="singer-schedule">下一场演出: 4月15日 21:00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card singer-card">
+                        <img src="https://images.unsplash.com/photo-1516575601760-94bbeb391090?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="歌手照片" class="singer-photo">
+                        <div class="singer-info">
+                            <div class="singer-name">Marcus Harper</div>
+                            <div class="singer-genre">Neo Soul / Jazz</div>
+                            <div class="singer-schedule">下一场演出: 4月18日 20:30</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">我的设置</div>
+                    <div class="menu-list">
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon"><i class="fas fa-user"></i></div>
+                                <div class="menu-title">个人信息</div>
+                            </div>
+                            <div class="menu-right"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon"><i class="fas fa-bell"></i></div>
+                                <div class="menu-title">消息通知</div>
+                            </div>
+                            <div class="menu-right"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon"><i class="fas fa-shield-alt"></i></div>
+                                <div class="menu-title">隐私设置</div>
+                            </div>
+                            <div class="menu-right"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon"><i class="fas fa-question-circle"></i></div>
+                                <div class="menu-title">帮助与反馈</div>
+                            </div>
+                            <div class="menu-right"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="menu-item" onclick="toggleLogin()">
+                            <div class="menu-left">
+                                <div class="menu-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                <div class="menu-title">退出登录</div>
+                            </div>
+                            <div class="menu-right"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 歌手详情页 -->
+            <div id="singer-detail" class="detailed-view">
+                <div class="back-header">
+                    <div class="back-btn" onclick="hideDetailView('singer-detail')"><i class="fas fa-arrow-left"></i></div>
+                    <div class="page-title">歌手详情</div>
+                </div>
+                
+                <div class="singer-detail-header">
+                    <img src="https://images.unsplash.com/photo-1570499911518-9b95b0620cce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8amF6eiUyMHNpbmdlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="歌手封面" class="singer-cover">
+                    <div class="singer-overlay">
+                        <div class="singer-detail-name">Ella Johnson</div>
+                        <div class="singer-detail-genre">R&B / Soul</div>
+                    </div>
+                </div>
+                
+                <div class="action-btns">
+                    <div class="action-btn">
+                        <div class="action-icon"><i class="far fa-heart"></i></div>
+                        <div class="action-text">收藏</div>
+                    </div>
+                    <div class="action-btn">
+                        <div class="action-icon"><i class="fas fa-share-alt"></i></div>
+                        <div class="action-text">分享</div>
+                    </div>
+                    <div class="action-btn">
+                        <div class="action-icon"><i class="far fa-comment"></i></div>
+                        <div class="action-text">评论</div>
+                    </div>
+                </div>
+                
+                <div class="singer-detail-content">
+                    <div class="singer-bio">
+                        <div class="singer-bio-title">艺人简介</div>
+                        <div class="singer-bio-text">
+                            Ella Johnson，知名R&B和Soul歌手，以其独特的声音和感染力强的现场表演而闻名。她的音乐融合了传统R&B、Soul和现代电子音乐元素，创造出极具个人风格的声音。Ella曾在多个知名音乐节和场馆表演，并与多位顶尖音乐人合作。
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">热门音乐作品</div>
+                    <div class="card">
+                        <div class="performance-item">
+                            <div class="performance-date">Soul Reflection (专辑)</div>
+                            <div class="performance-venue">2022年发行 | 10首歌曲</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-date">Midnight Dreams (单曲)</div>
+                            <div class="performance-venue">2023年发行</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-date">Urban Soul (EP)</div>
+                            <div class="performance-venue">2021年发行 | 5首歌曲</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">演出时间表</div>
+                    <div class="performance-list card">
+                        <div class="performance-item">
+                            <div class="performance-date">4月15日 21:00</div>
+                            <div class="performance-venue">2046 Live House - 2046 R&B 之夜</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-date">4月29日 20:00</div>
+                            <div class="performance-venue">2046 Live House - Jazz & Cocktail Night</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-date">5月10日 21:30</div>
+                            <div class="performance-venue">2046 Live House - Soul Music Festival</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 活动详情页 -->
+            <div id="event-detail" class="detailed-view">
+                <div class="back-header">
+                    <div class="back-btn" onclick="hideDetailView('event-detail')"><i class="fas fa-arrow-left"></i></div>
+                    <div class="page-title">活动详情</div>
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y29uY2VydHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="活动封面" class="event-image">
+                
+                <div class="event-detail-content">
+                    <div class="event-title">2046 R&B 之夜</div>
+                    <div class="event-detail-meta">
+                        <div class="event-detail-item">
+                            <div class="event-detail-icon"><i class="far fa-calendar-alt"></i></div>
+                            <div class="event-detail-text">4月15日 21:00-23:00</div>
+                        </div>
+                        <div class="event-detail-item">
+                            <div class="event-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="event-detail-text">2046 Live House (北京市朝阳区三里屯街道)</div>
+                        </div>
+                        <div class="event-detail-item">
+                            <div class="event-detail-icon"><i class="fas fa-user"></i></div>
+                            <div class="event-detail-text">表演嘉宾: Ella Johnson, Marcus Harper</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-btns">
+                        <div class="action-btn">
+                            <div class="action-icon"><i class="far fa-heart"></i></div>
+                            <div class="action-text">收藏</div>
+                        </div>
+                        <div class="action-btn">
+                            <div class="action-icon"><i class="fas fa-share-alt"></i></div>
+                            <div class="action-text">分享</div>
+                        </div>
+                        <div class="action-btn">
+                            <div class="action-icon"><i class="far fa-comment"></i></div>
+                            <div class="action-text">评论</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-detail-desc">
+                        <div class="event-detail-title">活动简介</div>
+                        <div class="event-detail-desc-text">
+                            2046 R&B 之夜将带您进入一场沉浸式的音乐体验，我们邀请了知名R&B歌手Ella Johnson和Marcus Harper为您带来精彩的现场表演。在独特的音乐氛围中，您可以享受顶级的音乐表演，品尝精心调制的鸡尾酒，与志同道合的音乐爱好者共度美好夜晚。活动包括两位歌手的solo表演以及特别合作环节，不容错过！
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-section">
+                        <div class="ticket-price">普通票: ¥120/人 | VIP票: ¥220/人</div>
+                        <div class="ticket-btn">立即购票</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchScreen('singers-screen')">
+                <div class="nav-icon"><i class="fas fa-microphone"></i></div>
+                <div>歌手</div>
+            </div>
+            <div class="nav-item" onclick="switchScreen('events-screen')">
+                <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div>活动</div>
+            </div>
+            <div class="nav-item" onclick="switchScreen('profile-screen')">
+                <div class="nav-icon"><i class="fas fa-user"></i></div>
+                <div>个人</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchScreen(screenId) {
+            // 隐藏所有屏幕
+            document.querySelectorAll('.screen-content').forEach(screen => {
+                screen.classList.remove('active-screen');
+            });
+            
+            // 显示选定屏幕
+            document.getElementById(screenId).classList.add('active-screen');
+            
+            // 更新导航栏活动状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        function showSingerDetail() {
+            document.getElementById('singer-detail').style.display = 'block';
+        }
+        
+        function showEventDetail() {
+            document.getElementById('event-detail').style.display = 'block';
+        }
+        
+        function hideDetailView(viewId) {
+            document.getElementById(viewId).style.display = 'none';
+        }
+        
+        function toggleLogin() {
+            const loggedIn = document.getElementById('logged-in');
+            const notLoggedIn = document.getElementById('not-logged-in');
+            
+            if (loggedIn.style.display === 'none') {
+                loggedIn.style.display = 'block';
+                notLoggedIn.style.display = 'none';
+            } else {
+                loggedIn.style.display = 'none';
+                notLoggedIn.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
