@@ -18,3 +18,23 @@
 
 个人小程序：更多依赖社交媒体和在线平台进行推广 1。
 公司小程序：有更多的营销渠道，包括在线广告、促销活动和合作伙伴关系 
+
+miniprogram-7/
+├── app.js                // 全局配置和用户状态管理
+├── app.json              // 全局配置文件，包含页面路径和TabBar
+├── app.wxss             // 全局样式
+├── cloudbase/           // 模拟云开发数据
+│   ├── singers.js       // 歌手数据模拟
+│   ├── events.js        // 活动数据模拟
+│   └── users.js         // 用户数据模拟
+├── services/            // API服务层
+│   ├── api.js           // API基础服务
+│   ├── singers.js       // 歌手服务
+│   ├── events.js        // 活动服务
+│   └── users.js         // 用户服务
+└── pages/               // 页面目录
+    ├── index/           // 歌手页面（首页）
+    ├── singer-detail/   // 歌手详情页
+    ├── events/          // 活动页面
+    ├── event-detail/    // 活动详情页
+    └── profile/         // 个人中心页面

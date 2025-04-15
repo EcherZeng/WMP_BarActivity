@@ -1,0 +1,120 @@
+[
+    {
+      _id: "singer123",
+      name: "Ella Johnson",
+      photoUrl: "https://images.unsplash.com/photo-1570499911518-9b95b0620cce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8amF6eiUyMHNpbmdlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+      coverUrl: "https://images.unsplash.com/photo-1570499911518-9b95b0620cce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8amF6eiUyMHNpbmdlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60", 
+      genre: "R&B / Soul",
+      biography: "Ella Johnson，知名R&B和Soul歌手，以其独特的声音和感染力强的现场表演而闻名。她的音乐融合了传统R&B、Soul和现代电子音乐元素，创造出极具个人风格的声音。Ella曾在多个知名音乐节和场馆表演，并与多位顶尖音乐人合作。",
+      works: [
+        {
+          title: "Soul Reflection",
+          type: "专辑",
+          releaseYear: "2022",
+          trackCount: 10
+        },
+        {
+          title: "Midnight Dreams",
+          type: "单曲",
+          releaseYear: "2023",
+          trackCount: null
+        },
+        {
+          title: "Urban Soul",
+          type: "EP",
+          releaseYear: "2021",
+          trackCount: 5
+        }
+      ],
+      nextPerformance: {
+        date: "2025-04-15T21:00:00Z",
+        venue: "2046 Live House"
+      },
+      createTime: new Date("2023-01-15"),
+      updateTime: new Date("2023-03-22")
+    },
+    {
+      _id: "singer456",
+      name: "Marcus Harper",
+      photoUrl: "https://images.unsplash.com/photo-1516575601760-94bbeb391090?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      coverUrl: "https://images.unsplash.com/photo-1516575601760-94bbeb391090?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      genre: "Neo Soul / Jazz",
+      biography: "Marcus Harper是一位才华横溢的Neo Soul和Jazz歌手，他的音乐融合了传统爵士乐的即兴创作与现代Neo Soul的动感节奏。Marcus擅长创造温暖、情感丰富的旋律，他的现场表演总是能带给观众独特的音乐体验。",
+      works: [
+        {
+          title: "Blue Notes",
+          type: "专辑",
+          releaseYear: "2022",
+          trackCount: 12
+        },
+        {
+          title: "Soulful Journey",
+          type: "EP",
+          releaseYear: "2021",
+          trackCount: 6
+        }
+      ],
+      nextPerformance: {
+        date: "2025-04-18T20:30:00Z",
+        venue: "2046 Live House"
+      },
+      createTime: new Date("2023-02-20"),
+      updateTime: new Date("2023-04-10")
+    },
+    {
+      _id: "singer789",
+      name: "Sarah Chen",
+      photoUrl: "https://images.unsplash.com/photo-1549834125-80f9dda633c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      coverUrl: "https://images.unsplash.com/photo-1549834125-80f9dda633c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      genre: "Contemporary R&B",
+      biography: "Sarah Chen是当代R&B音乐现场最具创新精神的代表之一。她结合电子音乐元素和传统R&B，创造出独特的声音景观。她的歌词深刻探讨现代生活和人际关系的复杂性，引起了广泛共鸣。",
+      works: [
+        {
+          title: "Digital Soul",
+          type: "专辑",
+          releaseYear: "2023",
+          trackCount: 10
+        },
+        {
+          title: "Electric Emotions",
+          type: "单曲",
+          releaseYear: "2024",
+          trackCount: null
+        }
+      ],
+      nextPerformance: {
+        date: "2025-04-22T21:30:00Z",
+        venue: "2046 Live House"
+      },
+      createTime: new Date("2023-09-05"),
+      updateTime: new Date("2024-01-15")
+    },
+    {
+      _id: "singer101",
+      name: "James Wilson",
+      photoUrl: "https://images.unsplash.com/photo-1483393458019-411bc6bd104e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      coverUrl: "https://images.unsplash.com/photo-1483393458019-411bc6bd104e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      genre: "Soul / Funk",
+      biography: "James Wilson是一位充满活力的Soul和Funk歌手，擅长创作节奏感强、富有动感的音乐。他的表演充满激情和能量，总能带动现场氛围。他的声音独特而有力，无论是在温柔的抒情歌曲还是在快节奏的舞曲中都能完美驾驭。",
+      works: [
+        {
+          title: "Groove Theory",
+          type: "专辑",
+          releaseYear: "2022",
+          trackCount: 12
+        },
+        {
+          title: "Funk Revival",
+          type: "EP",
+          releaseYear: "2023",
+          trackCount: 5
+        }
+      ],
+      nextPerformance: {
+        date: "2025-04-25T22:00:00Z",
+        venue: "2046 Live House"
+      },
+      createTime: new Date("2023-05-18"),
+      updateTime: new Date("2023-11-30")
+    }
+  ]

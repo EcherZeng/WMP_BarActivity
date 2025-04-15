@@ -16,33 +16,22 @@
             height: 812px;
             margin: 20px;
             background-color: white;
-            border-radius: 40px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             position: relative;
             border: 1px solid #ddd;
         }
         .status-bar {
-            height: 44px;
-            background-color: black;
-            color: white;
+            height: 25px;
+            background-color: #f7f7f7;
+            color: #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
-            font-size: 14px;
-        }
-        .notch {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 30px;
-            background-color: black;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            z-index: 10;
+            padding: 0 12px;
+            font-size: 12px;
+            border-bottom: 1px solid #eee;
         }
         .screen {
             height: calc(100% - 44px - 80px);
@@ -50,16 +39,15 @@
             position: relative;
         }
         .nav-bar {
-            height: 80px;
+            height: 56px;
             background-color: white;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-around;
             align-items: center;
             position: absolute;
             bottom: 0;
             width: 100%;
-            padding-bottom: 20px;
         }
         .nav-item {
             display: flex;
@@ -68,9 +56,10 @@
             color: #888;
             font-size: 10px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         .nav-item.active {
-            color: #fd6537;
+            color: #07c160;
         }
         .nav-icon {
             font-size: 24px;
@@ -86,13 +75,13 @@
         .search-bar {
             display: flex;
             align-items: center;
-            background-color: #f2f2f2;
-            border-radius: 20px;
-            padding: 8px 15px;
+            background-color: #f6f6f6;
+            border-radius: 8px;
+            padding: 8px 12px;
             margin-bottom: 15px;
         }
         .search-icon {
-            color: #888;
+            color: #a0a0a0;
             margin-right: 8px;
         }
         .search-input {
@@ -104,60 +93,99 @@
         }
         .section-title {
             font-size: 18px;
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            color: #323233;
             margin-bottom: 15px;
+            position: relative;
+            padding-left: 12px;
+        }
+        .section-title:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(to bottom, #07c160, #10aeff);
+            border-radius: 2px;
         }
         .card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
         }
         .singer-card {
             display: flex;
-            padding: 12px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            border-left: 3px solid #07c160;
         }
         .singer-photo {
-            width: 70px;
-            height: 70px;
+            width: 76px;
+            height: 76px;
             border-radius: 50%;
             object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+        }
+        .singer-photo:hover {
+            transform: scale(1.05);
         }
         .singer-info {
-            margin-left: 15px;
+            margin-left: 18px;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .singer-name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #323233;
         }
         .singer-genre {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 8px;
+            font-size: 13px;
+            color: #969799;
+            margin-bottom: 10px;
+            font-weight: 500;
         }
         .singer-schedule {
-            font-size: 12px;
-            color: #fd6537;
+            font-size: 13px;
+            color: #07c160;
+            font-weight: 500;
         }
         .event-card {
             position: relative;
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-3px);
         }
         .event-image {
             width: 100%;
-            height: 150px;
+            height: 170px;
             object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
         }
         .event-info {
-            padding: 12px;
+            padding: 16px;
         }
         .event-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #323233;
         }
         .event-meta {
             display: flex;
@@ -165,23 +193,13 @@
             margin-bottom: 8px;
         }
         .event-date, .event-location {
-            font-size: 12px;
-            color: #888;
+            font-size: 13px;
+            color: #969799;
         }
-        .event-price {
-            font-size: 14px;
-            color: #fd6537;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .event-btn {
-            display: inline-block;
-            background-color: #fd6537;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
+        .event-participants {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #07c160;
         }
         .profile-header {
             display: flex;
@@ -410,25 +428,14 @@
             line-height: 1.5;
             color: #555;
         }
-        .ticket-section {
-            background-color: #f2f2f2;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        .ticket-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fd6537;
-            margin-bottom: 15px;
-        }
-        .ticket-btn {
+        /* 微信小程序风格元素 */
+        .wx-btn {
             display: block;
             width: 100%;
-            background-color: #fd6537;
+            background-color: #07c160;
             color: white;
             padding: 12px;
-            border-radius: 25px;
+            border-radius: 4px;
             text-align: center;
             font-weight: bold;
         }
@@ -543,8 +550,7 @@
                             <div class="event-date">4月15日 21:00</div>
                             <div class="event-location">2046 Live House</div>
                         </div>
-                        <div class="event-price">¥120 起</div>
-                        <div class="event-btn">立即购票</div>
+                        <div class="event-participants">表演者: Ella Johnson, Marcus Harper</div>
                     </div>
                 </div>
                 
@@ -556,8 +562,7 @@
                             <div class="event-date">4月22日 19:30</div>
                             <div class="event-location">2046 Live House</div>
                         </div>
-                        <div class="event-price">¥150 起</div>
-                        <div class="event-btn">立即购票</div>
+                        <div class="event-participants">表演者: Sarah Chen, James Wilson</div>
                     </div>
                 </div>
                 
@@ -569,8 +574,7 @@
                             <div class="event-date">4月29日 20:00</div>
                             <div class="event-location">2046 Live House</div>
                         </div>
-                        <div class="event-price">¥180 起</div>
-                        <div class="event-btn">立即购票</div>
+                        <div class="event-participants">表演者: Marcus Harper, Ella Johnson</div>
                     </div>
                 </div>
             </div>
@@ -787,10 +791,7 @@
                         </div>
                     </div>
                     
-                    <div class="ticket-section">
-                        <div class="ticket-price">普通票: ¥120/人 | VIP票: ¥220/人</div>
-                        <div class="ticket-btn">立即购票</div>
-                    </div>
+                    <!-- 票价和购票功能已移除 -->
                 </div>
             </div>
         </div>
