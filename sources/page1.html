@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>2046 R&B Bar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,11 +13,14 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: #121212; /* Dark Gray */
+            background: #0A0A0A;
             color: white;
+            line-height: 1.6;
+            padding-bottom: 80px;
         }
 
         .status-bar {
@@ -28,7 +31,8 @@
             background: rgba(0, 0, 0, 0.8);
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             z-index: 100;
         }
 
@@ -40,155 +44,272 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
 
         .signal-icon {
-            color: #FFFFFF; /* White */
+            color: #FFFFFF;
             font-size: 18px;
         }
 
         .battery {
-            color: #FFFFFF; /* White */
+            color: #FFFFFF;
             font-size: 14px;
         }
 
         .location-header {
             background: rgba(0, 0, 0, 0.6);
-            color: #FFFFFF; /* White */
-            padding: 8px 15px;
+            color: #FFFFFF;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
-            margin-top: 40px;
+            margin-top: 45px;
+            font-weight: 600;
         }
 
-        .banner-image {
+        /* --- Slider Styles --- */
+        .slider-container {
             width: 100%;
             height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            height: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .slider-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slider-wrapper img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+
+        /* Updated Indicator Styles */
+        .slider-indicator {
+            position: absolute;
+            bottom: 15px;
+            left: 15px; /* Align to left */
+            right: 15px; /* Align to right */
+            display: flex;
+            gap: 4px; /* Gap between segments */
+            height: 4px; /* Height of the indicator bar */
+        }
+
+        .indicator-segment {
+            flex: 1; /* Each segment takes equal width */
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3); /* Inactive segment color */
+            border-radius: 2px; /* Slightly rounded ends */
+            /* Add transition if you plan to use JS to change active segment */
+            /* transition: background-color 0.3s ease; */
+        }
+
+        /* Style for the active segment (requires JS to update dynamically) */
+        /* .indicator-segment.active {
+            background-color: #FFFFFF;
+        } */
+        /* --- End Slider Styles --- */
+
+        /* Common styles for content blocks */
+        .content-block {
+             background: #181818;
+             margin: 25px 15px;
+             padding: 18px;
+             border-radius: 10px;
+             box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .wechat-consult {
-            background: #1E1E1E;
-            margin: 15px;
-            padding: 15px;
-            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            cursor: pointer;
+            padding: 18px;
         }
+         .wechat-consult span:first-child {
+             font-size: 22px;
+         }
 
         .store-info {
-            background: #1E1E1E;
-            margin: 15px;
-            padding: 15px;
-            border-radius: 8px;
+             /* Inherit from .content-block */
         }
 
         .store-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
         }
 
         .store-name {
-            color: #FFFFFF; /* White */
-            font-size: 18px;
-            font-weight: bold;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
+
+         .share-icon {
+             font-size: 22px;
+             color: #999;
+             cursor: pointer;
+             padding: 8px;
+             margin: -8px;
+             transition: color 0.3s ease;
+         }
+         .share-icon:hover {
+             color: #FFF;
+         }
 
         .status-tag {
-            background: #D32F2F; /* Red */
+            background: #C62828;
             color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 12px;
         }
 
-        .business-hours {
-            color: #999;
-            font-size: 14px;
+        .business-hours,
+        .visitor-count,
+        .address span:first-child {
+            color: #A0A0A0;
+            font-size: 15px;
         }
-
-        .visitor-count {
-            color: #999;
-            font-size: 14px;
-            margin: 10px 0;
-        }
+        .business-hours { margin-bottom: 8px; }
+        .visitor-count { margin: 18px 0; }
 
         .address {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #999;
-            font-size: 14px;
+            font-size: 15px;
+            margin-top: 18px;
         }
+         .address span:last-child {
+             color: #C62828;
+             font-weight: 600;
+             cursor: pointer;
+             padding: 8px 0 8px 8px;
+             margin: -8px 0 -8px -8px;
+             transition: color 0.3s ease;
+         }
+         .address span:last-child:hover {
+             color: #E53935;
+         }
 
         .booking-button {
-            background: #D32F2F; /* Red */
+            background: #C62828;
+            color: #FFFFFF;
             text-align: center;
-            padding: 15px;
-            margin: 15px;
-            border-radius: 20px;
+            padding: 18px 15px;
+            margin: 25px 15px;
+            border-radius: 30px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 700;
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .customer-service {
-            background: #1E1E1E;
-            margin: 15px;
-            padding: 15px;
-            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .contact-info {
-            color: #999;
-            font-size: 14px;
+        .customer-service > div:first-child > div:first-child {
+             font-size: 17px;
+             font-weight: 600;
+             margin-bottom: 12px;
         }
+
+        .contact-info {
+            color: #A0A0A0;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .customer-service > div:last-child {
+             display: flex;
+             flex-direction: column;
+             gap: 20px;
+             align-items: flex-end;
+        }
+         .customer-service > div:last-child span {
+             color: #C62828;
+             font-weight: 600;
+             cursor: pointer;
+             padding: 8px 0;
+             margin: -8px 0;
+         }
 
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
-            background: #1E1E1E;
+            padding: 10px 0 env(safe-area-inset-bottom, 15px) 0;
+            background: #181818;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+            z-index: 100;
         }
 
         .nav-item {
             text-align: center;
-            color: #666;
-            font-size: 12px;
+            color: #888;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 5px 10px;
+            flex: 1;
         }
+         .nav-item span {
+             font-size: 22px;
+             display: block;
+             margin-bottom: 4px;
+         }
 
         .nav-item.active {
-            color: #D32F2F; /* Red */
+            color: #C62828;
+            font-weight: 600;
         }
+         .nav-item.active span {
+             color: #C62828;
+         }
 
         /* Animation Keyframes */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Apply Fade-in Animation to Content Blocks */
         .location-header,
-        .banner-image,
+        .slider-container,
         .wechat-consult,
         .store-info,
         .booking-button,
         .customer-service {
-            animation: fadeIn 0.5s ease-out forwards;
-            opacity: 0; /* Start hidden */
+            animation: fadeIn 0.6s ease-in-out forwards;
+            opacity: 0;
         }
 
-        /* Stagger animation delays for a smoother effect */
-        .banner-image { animation-delay: 0.1s; }
+        /* Stagger animation delays */
+        .slider-container { animation-delay: 0.1s; }
         .wechat-consult { animation-delay: 0.2s; }
         .store-info { animation-delay: 0.3s; }
         .booking-button { animation-delay: 0.4s; }
@@ -197,25 +318,53 @@
         /* Smooth Transitions for Interactive Elements */
         .booking-button,
         .nav-item,
-        .wechat-consult, /* Added for hover effect */
-        .customer-service span /* Added for hover effect on contact options */ {
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        .wechat-consult,
+        .customer-service span,
+        .address span:last-child,
+        .share-icon {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
-        .booking-button:hover,
-        .wechat-consult:hover {
-            background-color: #E53935; /* Slightly lighter red on hover */
-            transform: scale(1.02); /* Subtle scale effect */
+        /* Active state for touch */
+        .booking-button:active,
+        .wechat-consult:active {
+            background-color: #E53935;
+            transform: scale(0.98);
+        }
+         .nav-item:active {
+             background-color: rgba(255, 255, 255, 0.1);
+         }
+         .customer-service span:active,
+         .address span:last-child:active,
+         .share-icon:active {
+              color: #E53935;
+         }
+
+        /* Hover effects for desktop/debugging */
+        @media (hover: hover) {
+            .booking-button:hover {
+                background-color: #E53935;
+                transform: scale(1.03);
+                box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4);
+            }
+             .wechat-consult:hover {
+                 background-color: #282828;
+                 transform: scale(1.02);
+             }
+            .nav-item:hover {
+                color: #FFFFFF;
+                transform: translateY(-2px);
+            }
+             .nav-item:hover span {
+                 color: #FFFFFF;
+             }
+            .customer-service span:hover,
+            .address span:last-child:hover,
+            .share-icon:hover {
+                 color: #E53935;
+            }
         }
 
-        .nav-item:hover {
-            color: #FFFFFF; /* White on hover */
-        }
-
-        .customer-service span:hover {
-             color: #FFFFFF; /* White on hover */
-             cursor: pointer; /* Indicate interactivity */
-        }
     </style>
 </head>
 <body>
@@ -231,14 +380,28 @@
         2046 R&B Bar ▼
     </div>
 
-    <img src="2046logo.png" alt="2046 Logo" class="banner-image">
+    <!-- Slider Container -->
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            <img src="2046logo.png" alt="2046 Logo">
+            <img src="newLogo.jpeg" alt="New Logo 1">
+            <img src="newLogo2.jpeg" alt="New Logo 2">
+        </div>
+        <!-- Updated Indicator HTML -->
+        <div class="slider-indicator">
+            <span class="indicator-segment"></span> <!-- Add 'active' class with JS -->
+            <span class="indicator-segment"></span>
+            <span class="indicator-segment"></span>
+        </div>
+    </div>
+    <!-- End Slider Container -->
 
-    <div class="wechat-consult">
+    <div class="wechat-consult content-block">
         <span>👥</span>
         <span>微信咨询</span>
     </div>
 
-    <div class="store-info">
+    <div class="store-info content-block">
         <div class="store-header">
             <span class="store-name">2046 R&B Bar</span>
             <span class="share-icon">🔗</span>
@@ -256,17 +419,15 @@
         点击预订
     </div>
 
-    <div class="customer-service">
+    <div class="customer-service content-block">
         <div>
-            <div style="font-size: 16px;">在线客服</div>
+            <div>客服</div>
             <div class="contact-info">
                 联系电话<br>
                 189-8087-9618<br>
-                每天还有少量座位<br>
-                可点击右边"微信"联系客服进行预订
             </div>
         </div>
-        <div style="display: flex; gap: 15px;">
+        <div>
             <span>微信</span>
             <span>电话</span>
         </div>
@@ -274,10 +435,10 @@
 
     <div class="bottom-nav">
         <div class="nav-item active">
-            🏠<br>首页
+            <span>🏠</span>首页
         </div>
         <div class="nav-item">
-            👤<br>我的
+            <span>👤</span>我的
         </div>
     </div>
 </body>
