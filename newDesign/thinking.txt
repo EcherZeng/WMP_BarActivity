@@ -1,0 +1,185 @@
+2046 R&B Bar小程序功能规划
+
+技术选型：
+1. 前端框架
+   - UI组件库：Vant Weapp (https://youzan.github.io/vant-weapp)
+   - 开发方式：微信小程序原生开发
+
+2. 后端服务
+   - 微信云开发
+   - 云函数
+   - 云数据库
+   - 云存储
+
+一、首页（Home）
+1. 顶部图片资源轮播
+   - 使用 Vant Swiper 组件
+   - 云存储获取图片资源
+   - 云数据库存储图片配置
+
+2. 基础信息展示
+   - 使用 Vant Cell 组件
+   - 调用云函数获取营业状态
+   - 访问统计通过云数据库记录
+
+3. 核心功能区（页面中央）
+   - 自定义按钮样式
+   - 使用 Vant Button 组件作为基础
+   - 点击跳转使用 wx.navigateTo
+   - 未登录用户跳转前调用 wx.login
+
+4. 位置导航
+   - 使用 Vant Cell 展示地址
+   - 调用微信位置接口
+     * wx.getLocation 获取用户位置
+     * wx.openLocation 打开导航
+
+5. 预约咨询
+   - 使用 Vant Button 组件
+   - 从云数据库读取客服电话配置
+   - 调用接口：
+     * wx.makePhoneCall 拨打电话
+
+二、动态中心（Center）
+1. 登录控制
+   - 强制微信登录验证
+   - 使用 wx.getUserProfile 获取用户信息
+   - 云数据库记录用户访问信息
+   - 未登录用户自动跳转登录页
+
+2. 顶部状态区
+   - 自定义倒计时组件
+   - 调用云函数获取服务器时间
+   - 本地时间同步机制
+   - 状态切换动画
+
+3. 视频展示区
+   - 使用微信原生 video 组件
+   - 云存储存放视频文件
+   - 云数据库存储视频信息
+   - 调用接口：
+     * wx.createVideoContext 控制视频播放
+     * 云函数获取视频列表
+
+4. 图片展示区
+   - 使用 Vant Image 组件
+   - 瀑布流布局实现
+   - 云存储存放图片资源
+   - 云数据库存储图片信息
+   - 预览调用 wx.previewImage
+
+云开发数据结构：
+1. 云数据库集合
+   - banner：首页轮播图配置
+     * imageId: string (云存储ID)
+     * sequence: number (显示顺序)
+     * createTime: date
+     * updateTime: date
+
+   - business：营业信息
+     * status: boolean (营业状态)
+     * openTime: string (开始营业时间)
+     * closeTime: string (结束营业时间)
+     * address: string (详细地址)
+     * phone: string (客服电话)
+     * updateTime: date
+
+   - media：媒体资源信息
+     * type: string (video/image)
+     * fileId: string (云存储ID)
+     * title: string (标题)
+     * description: string (描述)
+     * createTime: date
+     * updateTime: date
+     * sequence: number (显示顺序)
+
+   - statistics：访问统计
+     * date: date (统计日期)
+     * count: number (访问次数)
+     * updateTime: date
+
+   - users：用户信息
+     * openId: string (微信openId)
+     * avatarUrl: string (头像)
+     * nickName: string (昵称)
+     * createTime: date
+     * lastVisit: date
+     * visitCount: number
+
+2. 云存储目录
+   - banner/：轮播图资源
+   - videos/：视频资源
+   - images/：图片资源
+
+3. 云函数
+   - getBusinessStatus：获取营业状态
+   - getServerTime：获取服务器时间
+   - getMediaList：获取媒体资源列表
+   - updateStatistics：更新访问统计
+   - checkLogin：验证登录状态
+   - updateUserInfo：更新用户信息
+
+页面设计重点：
+1. 整体风格
+   - 深色主题定制
+   - Vant 组件样式覆盖
+   - 统一的动画效果
+
+2. 交互体验
+   - Loading 状态管理
+   - 错误提示统一处理
+   - 页面切换动画
+   - 登录状态提示
+
+技术实现注意事项：
+1. 登录验证
+   - 进入动态中心前检查登录状态
+   - 使用云函数验证登录有效性
+   - 登录信息本地缓存
+   - 定期刷新登录状态
+
+2. 倒计时实现
+   - 服务器时间同步
+   - requestAnimationFrame 优化
+   - 后台运行处理
+
+3. 媒体资源优化
+   - 图片懒加载
+   - 视频预加载
+   - 云存储CDN加速
+
+4. 性能优化
+   - 组件按需引入
+   - 分包加载
+   - 缓存策略
+
+5. 小程序特有功能
+   - 分享功能（onShareAppMessage）
+   - 右上角菜单
+   - 页面下拉刷新
+   - 返回首页功能
+
+开发规范：
+1. 目录结构
+   - pages/：页面文件
+   - components/：自定义组件
+   - utils/：工具函数
+   - api/：接口封装
+   - styles/：样式文件
+
+2. 命名规范
+   - 文件名：kebab-case
+   - 组件名：PascalCase
+   - 变量名：camelCase
+   - 常量名：UPPER_CASE
+
+3. 代码规范
+   - ESLint配置
+   - Prettier格式化
+   - TypeScript类型检查
+
+4. 微信登录流程
+   - 启动时静默登录
+   - 获取用户信息时使用弹窗授权
+   - 登录态过期处理
+   - 重试机制实现
